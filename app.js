@@ -2,15 +2,25 @@ const express = require("express");
 const app = express();
 const tasks = require("./routes/tasks");
 const connectDB = require("./db/connect");
+const errorHandlerMiddleware = require("./middleware/error-handler");
+const notFound = require("./middleware/not-found");
 const port = 3000;
 require("dotenv").config();
 
+// Middleware to serve static files
+app.use(express.static("./public"));
+
+// Middleware to parse JSON bodies
 app.use(express.json());
 
+// Define routes
 app.use("/api/v1/tasks", tasks);
-app.get("/", (req, res) => {
-  res.send("Task manager app");
-});
+
+// Middleware for handling 404 errors
+app.use(notFound);
+
+// Error handling middleware
+app.use(errorHandlerMiddleware);
 
 const start = async () => {
   try {
