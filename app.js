@@ -4,7 +4,7 @@ const tasks = require("./routes/tasks");
 const connectDB = require("./db/connect");
 const errorHandlerMiddleware = require("./middleware/error-handler");
 const notFound = require("./middleware/not-found");
-const port = 3000;
+const port = process.env.PORT || 3000;
 require("dotenv").config();
 
 // Middleware to serve static files
